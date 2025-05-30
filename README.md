@@ -1,4 +1,4 @@
-![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmarcorm69%2Fzone-smart-irrigation%2Frefs%2Fheads%2Fmain%2Fmanifest.json&query=%24.version&label=version&style=for-the-badge) ![Static Badge](https://img.shields.io/badge/license-Apache%20License%202.0-green?style=for-the-badge&logo=opensourceinitiative&logoColor=%23ffffff) ![Last Commit](https://img.shields.io/github/last-commit/marcorm69/zone-smart-irrigation/main&style=for-the-badge)
+![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmarcorm69%2Fzone-smart-irrigation%2Frefs%2Fheads%2Fmain%2Fmanifest.json&query=%24.version&label=version&style=for-the-badge) ![Static Badge](https://img.shields.io/badge/license-Apache%20License%202.0-green?style=for-the-badge&logo=opensourceinitiative&logoColor=%23ffffff)
 
 
 
