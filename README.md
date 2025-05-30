@@ -1,3 +1,6 @@
+[![version](https://img.shields.io/badge/version-v1.0.0_beta-brightgreen)](https://github.com/marcorm69/zone-smart-irrigation/releases/tag/v1.0.0-beta)
+
+
 # Zone Smart Irrigation
 
 Custom integration for Home Assistant to manager a Zone Smart Irrigation System .
