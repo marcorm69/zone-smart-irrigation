@@ -14,6 +14,16 @@ Custom integration for Home Assistant to manager a Zone Smart Irrigation System 
 > The code still has some shortcomings.  
 > This work is part of my spare time, I can't give any indication when it will be completed.  
 
+## Disclaimer
+
+This project is distributed in the hope that it will be useful,  
+but WITHOUT ANY WARRANTY; without even the implied warranty of  
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+
+The author shall not be held liable for any damage or loss caused by the use of this software.  
+Use at your own risk.
+
+
 ## License
 
 This project is licensed under the Apache License 2.0.
