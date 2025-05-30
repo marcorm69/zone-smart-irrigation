@@ -1,0 +1,13 @@
+{
+    "config": {
+      "step": {
+        "user": {
+          "title": "Configurazione iniziale",
+          "description": "Imposta il numero di zone che vuoi configurare.",
+          "data": {
+            "zone_number": "Quante zone vuoi configurare?"
+          }
+        }
+      }
+    }
+  }

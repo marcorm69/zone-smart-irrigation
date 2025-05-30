@@ -1,0 +1,12 @@
+{
+    "domain": "zone_smart_irrigation",
+    "name": "Zone Smart Irrigation",
+    "documentation": "https://www.home-assistant.io/integrations/my_zone_integration",
+    "issue_tracker": "https://github.com/your_github_user/my_zone_integration/issues",
+    "requirements": [],
+    "codeowners": ["@your_github_user"],
+    "iot_class": "local_polling",    
+    "config_flow": true,
+    "version": "1.0.0",
+    "platforms": ["sensor", "number", "switch"]
+  }
