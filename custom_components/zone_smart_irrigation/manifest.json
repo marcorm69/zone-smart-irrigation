@@ -7,6 +7,5 @@
     "codeowners": ["@marcorm69"],
     "iot_class": "local_polling",    
     "config_flow": true,
-    "version": "1.0.1-beta",
-    "platforms": ["sensor", "number", "switch"]
+    "version": "1.0.1-beta"
   }
