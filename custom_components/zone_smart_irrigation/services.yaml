@@ -1,0 +1,34 @@
+irrigation_control:
+  name: "Irrigation Control"
+  description: "Unified service for irrigation: start/stop with automatic timer"
+  fields:
+    action:
+      name: "Action"
+      description: "Action to perform: start irrigation or stop irrigation"
+      required: false
+      default: "start"
+      example: "start"
+      selector:
+        select:
+          options:
+            - "start"
+            - "stop"
+    switch_entity:
+      name: "Switch Entity"
+      description: "Entity ID of the irrigation switch to control"
+      required: true
+      example: "switch.irrigation_zone_1"
+      selector:
+        entity:
+          domain: switch
+    duration:
+      name: "Duration"
+      description: "Duration in minutes for automatic irrigation (only used with 'start' action)"
+      required: false
+      default: 10
+      example: 30
+      selector:
+        number:
+          min: 1
+          max: 240
+          unit_of_measurement: "min"
