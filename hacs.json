@@ -1,5 +1,6 @@
 {
   "name": "Zone Smart Irrigation",
   "content_in_root": false,
-  "zip_release": false
+  "zip_release": false,
+  "ignore": ["brands"]
 }
