@@ -37,7 +37,7 @@ See the LICENSE file for details.
 
 ### Manual
 
-1. Copy the folder `zone_smart_irrigation` in `config/custom_components/`
+1. Copy the files in `custom_components/zone_smart_irrigation` in `config/custom_components/zone-smart-irrigation`
 ```
 <config directory>/
 |-- custom_components/
