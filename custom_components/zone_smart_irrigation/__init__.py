@@ -1,5 +1,6 @@
-# === SERVIZIO UNIFICATO NEL TUO __init__.py ===
-
+# 
+#	__init.py
+#
 import asyncio
 import logging
 from datetime import datetime, time
@@ -11,6 +12,7 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.event import async_track_time_change
 from homeassistant.core import callback
 from datetime import datetime
+from homeassistant.config_entries import ConfigEntryState
 
 from .const import DOMAIN
 
@@ -237,13 +239,13 @@ async def async_unload_entry(hass, entry):
     
     entry_data = hass.data[DOMAIN].get(entry.entry_id, {})
     
-    # Ferma tutte le irrigazioni attive
+    # Ferma tutte le irrigazioni attive per questa entry
     active_irrigations = entry_data.get("active_irrigations", {})
     for switch_entity, task in active_irrigations.items():
         task.cancel()
         _LOGGER.info(f"Irrigazione interrotta: {switch_entity}")
     
-    # Cancella tutti i listeners per la programmazione
+    # Cancella tutti i listeners per la programmazione di questa entry
     listeners = entry_data.get("listeners", [])
     for cancel_listener in listeners:
         cancel_listener()
@@ -251,13 +253,46 @@ async def async_unload_entry(hass, entry):
     if listeners:
         _LOGGER.info(f"Sistema irrigazione programmata disattivato ({len(listeners)} zone)")
     
-    # Rimuovi servizio
-    hass.services.async_remove(DOMAIN, "irrigation_control")
-    
-    # Cleanup dati
+    # Rimuovi i dati di questa entry
     hass.data[DOMAIN].pop(entry.entry_id, None)
     
-    # Unload platforms
+    # Controlla se ci sono ancora altre entry attive
+    remaining_entries = [
+        e for e in hass.config_entries.async_entries(DOMAIN) 
+        if e.entry_id != entry.entry_id and e.state.name == "LOADED"
+    ]
+    
+    # Aggiorna il sensore globale con i dati delle entry rimanenti
+    global_sensor = hass.data.get(f"{DOMAIN}_global_sensor")
+    if global_sensor and hasattr(global_sensor, 'hass') and global_sensor.hass is not None:
+        try:
+            if remaining_entries:
+                # Ci sono ancora entry attive, aggiorna il sensore ESCLUDENDO l'entry che stiamo rimuovendo
+                global_sensor.update_zones_from_entries(exclude_entry_id=entry.entry_id)
+                _LOGGER.info(f"Sensore globale aggiornato, rimangono {len(remaining_entries)} entry")
+            else:
+                # Non ci sono più entry, ADESSO sì che rimuovi il sensore
+                await global_sensor.async_remove()
+                hass.data.pop(f"{DOMAIN}_global_sensor", None)
+                _LOGGER.info("Sensore globale rimosso - nessuna entry rimanente")
+        except Exception as e:
+            _LOGGER.warning(f"Errore aggiornando sensore globale durante unload: {e}")
+    
+    # RIMUOVI SERVIZI E COMPONENTI CONDIVISI SOLO SE NON CI SONO PIÙ ENTRY
+    if not remaining_entries:
+        # Non ci sono più entry, rimuovi i servizi condivisi
+        if hass.services.has_service(DOMAIN, "irrigation_control"):
+            hass.services.async_remove(DOMAIN, "irrigation_control")
+            _LOGGER.info("Servizio irrigation_control rimosso")
+        
+        # Cleanup completo dei dati del dominio
+        if DOMAIN in hass.data:
+            hass.data.pop(DOMAIN)
+            _LOGGER.info("Dati del dominio puliti completamente")
+    else:
+        _LOGGER.info(f"Servizi mantenuti - rimangono {len(remaining_entries)} entry attive")
+
+    # Unload platforms per questa entry specifica
     await hass.config_entries.async_unload_platforms(entry, ["sensor", "number", "switch"])
     
     return True
