@@ -148,7 +148,8 @@ async def _setup_zone_automation(hass, zone_name: str, entry_id: str):
     @callback
     async def check_slot_time(now: datetime):
         """Controlla se è ora di avviare l'irrigazione per questa zona."""
-        
+        _LOGGER.debug(f"Check start irrigation.")
+
         # Recupera i dati aggiornati
         instance_data = hass.data[DOMAIN].get(entry_id)
         if not instance_data:
@@ -176,12 +177,14 @@ async def _setup_zone_automation(hass, zone_name: str, entry_id: str):
             
             # Controlla i giorni della settimana
             today = now.strftime("%A").lower()
-            allweek = hass.states.is_state(f"switch.{zone_slug}_allweek", "on")
+            allweek = hass.states.is_state(f"switch.{zone_slug}_all_week", "on")
             today_enabled = hass.states.is_state(f"switch.{zone_slug}_{today}", "on")
             
             _LOGGER.debug(f"Day check - All week: {allweek}, Today ({today}): {today_enabled}.")
             
-            if not allweek and not today_enabled:
+#            if not allweek and not today_enabled:
+            # Fix AllDay irrigation
+            if not (allweek or today_enabled):
                 _LOGGER.debug("Day not enabled.")
                 continue
             
